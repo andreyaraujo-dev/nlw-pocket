@@ -1,65 +1,61 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useQueryClient } from '@tanstack/react-query'
-import { X } from 'lucide-react'
-import { Controller, useForm } from 'react-hook-form'
-import { z } from 'zod'
-import { createGoal } from '../actions/create-goal.ts'
-import { Button } from './ui/button.tsx'
-import {
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-} from './ui/dialog.tsx'
-import { Input } from './ui/input.tsx'
-import { Label } from './ui/label.tsx'
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
+import { Controller, useForm } from "react-hook-form";
+import { z } from "zod";
+import { createGoal } from "../actions/create-goal.ts";
+import { Button } from "./ui/button.tsx";
+import { Input } from "./ui/input.tsx";
+import { Label } from "./ui/label.tsx";
 import {
   RadioGroup,
   RadioGroupIndicator,
   RadioGroupItem,
-} from './ui/radio-group.tsx'
+} from "./ui/radio-group.tsx";
+import {
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetTitle,
+} from "./ui/sheet.tsx";
 
 const createGoalForm = z.object({
-  title: z.string().min(1, 'Informe a atividade que deseja realizar'),
+  title: z.string().min(1, "Informe a atividade que deseja realizar"),
   desiredWeeklyFrequency: z.coerce.number().min(1).max(7),
-})
+});
 
-type CreateGoalForm = z.infer<typeof createGoalForm>
+type CreateGoalForm = z.infer<typeof createGoalForm>;
 
 export function CreateGoal() {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   const { register, control, handleSubmit, formState, reset } =
     useForm<CreateGoalForm>({
       resolver: zodResolver(createGoalForm),
-    })
+    });
 
   async function handleCreateGoal(data: CreateGoalForm) {
     await createGoal({
       title: data.title,
       desiredWeeklyFrequency: data.desiredWeeklyFrequency,
-    })
+    });
 
-    queryClient.invalidateQueries({ queryKey: ['week-summary'] })
-    queryClient.invalidateQueries({ queryKey: ['pending-goals'] })
+    queryClient.invalidateQueries({ queryKey: ["week-summary"] });
+    queryClient.invalidateQueries({ queryKey: ["pending-goals"] });
 
-    reset()
+    reset();
   }
 
   return (
-    <DialogContent>
+    <SheetContent className="bg-zinc-950 border-zinc-900">
       <div className="flex flex-col gap-6 h-full">
         <div className="flex flex-col gap-3 h-full">
           <div className="flex items-center justify-between">
-            <DialogTitle>Cadastrar meta</DialogTitle>
-            <DialogClose>
-              <X className="size-4 text-zinc-600" />
-            </DialogClose>
+            <SheetTitle className="text-zinc-100">Cadastrar meta</SheetTitle>
           </div>
 
-          <DialogDescription>
+          <SheetDescription>
             Adicione atividades que te fazem bem e que você quer continuar
             praticando toda semana.
-          </DialogDescription>
+          </SheetDescription>
 
           <form
             onSubmit={handleSubmit(handleCreateGoal)}
@@ -72,7 +68,7 @@ export function CreateGoal() {
                   id="title"
                   autoFocus
                   placeholder="Praticar exercícios, meditar, etc..."
-                  {...register('title')}
+                  {...register("title")}
                 />
 
                 {formState.errors.title && (
@@ -149,23 +145,25 @@ export function CreateGoal() {
                           <span className="text-ls leading-none">🔥</span>
                         </RadioGroupItem>
                       </RadioGroup>
-                    )
+                    );
                   }}
                 />
               </div>
             </div>
 
             <div className="flex items-center gap-3">
-              <DialogClose asChild>
-                <Button type="button" variant="secondary" className="flex-1">
+              <SheetClose asChild>
+                <Button type="button" className="flex-1">
                   Fechar
                 </Button>
-              </DialogClose>
-              <Button className="flex-1">Salvar</Button>
+              </SheetClose>
+              <Button className="flex-1 bg-violet-500 hover:bg-violet-600">
+                Salvar
+              </Button>
             </div>
           </form>
         </div>
       </div>
-    </DialogContent>
-  )
+    </SheetContent>
+  );
 }

@@ -1,8 +1,8 @@
-import { Plus } from 'lucide-react'
-import lestStart from '../assets/lets-start-illustration.svg'
-import logo from '../assets/logo-in-orbit.svg'
-import { Button } from './ui/button.tsx'
-import { DialogTrigger } from './ui/dialog.tsx'
+import { Plus } from "lucide-react";
+import lestStart from "../assets/lets-start-illustration.svg";
+import logo from "../assets/logo-in-orbit.svg";
+import { Button } from "./ui/button.tsx";
+import { DialogTrigger } from "./ui/dialog.tsx";
 
 export function EmptyGoals() {
   return (
@@ -15,11 +15,11 @@ export function EmptyGoals() {
       </p>
 
       <DialogTrigger asChild>
-        <Button type="button">
+        <Button type="button" className="bg-violet-500 hover:bg-violet-600">
           <Plus className="size-4" />
           Cadastrar meta
         </Button>
       </DialogTrigger>
     </div>
-  )
+  );
 }
