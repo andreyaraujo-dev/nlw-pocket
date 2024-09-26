@@ -1,11 +1,9 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
-import { useEffect, useState } from "react";
 import { createGoalCompletion } from "../actions/create-goal-completion.ts";
 import { getPendingGoals } from "../actions/get-pending-goals.ts";
 import { OutlineButton } from "./ui/outline-button.tsx";
-
-import { Goals } from "./goals.tsx";
+import { Goals } from "./goals/goals.tsx";
 
 export function PendingGoals() {
   const queryClient = useQueryClient();
@@ -14,15 +12,7 @@ export function PendingGoals() {
     queryFn: getPendingGoals,
     staleTime: 1000 * 60, // 60 seconds
   });
-  const [goals, setGoals] = useState(data);
-
-  function handleChangeGoal() {}
-
   if (!data) return null;
-
-  // useEffect(() => {
-  //   setGoals(data);
-  // }, [data]);
 
   async function handleCompletionGoal(goalId: string) {
     await createGoalCompletion(goalId);

@@ -153,7 +153,7 @@ export function CreateGoal() {
 
             <div className="flex items-center gap-3">
               <SheetClose asChild>
-                <Button type="button" className="flex-1">
+                <Button type="button" className="flex-1" variant="secondary">
                   Fechar
                 </Button>
               </SheetClose>

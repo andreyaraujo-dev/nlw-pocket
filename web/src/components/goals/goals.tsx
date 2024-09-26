@@ -1,4 +1,4 @@
-import { GetPendingGoalsResponse } from "@/actions/get-pending-goals.ts";
+import { GetPendingGoalsResponse, Goal } from "@/actions/get-pending-goals.ts";
 import {
   Table,
   TableBody,
@@ -6,7 +6,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "./ui/table.tsx";
+} from "../ui/table.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import {
   Sheet,
@@ -18,15 +18,9 @@ import {
 } from "@/components/ui/sheet.tsx";
 import { PenBox, Trash } from "lucide-react";
 import { useState } from "react";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "./ui/dialog.tsx";
+
+import { DialogUpdateGoal } from "./dialog-update-goal.tsx";
+import { DialogDeleteGoal } from "./dialog-delete-goal.tsx";
 
 interface GoalsProps {
   data: GetPendingGoalsResponse;
@@ -34,16 +28,26 @@ interface GoalsProps {
 
 export function Goals({ data }: GoalsProps) {
   const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
+  const [isOpenUpdateDialog, setIsOpenUpdateDialog] = useState(false);
 
-  async function handleDeleteGoal(id: string) {
+  const [goalForUpdate, setGoalForUpdate] = useState<Goal | null>(null);
+  const [goalIdForDelete, setGoalIdForDelete] = useState("");
+
+  function handleDeleteGoal(id: string) {
     setIsOpenDeleteDialog(true);
-    console.log(id);
+    setGoalIdForDelete(id);
+  }
+  function handleUpdateGoal(data: Goal) {
+    setIsOpenUpdateDialog(true);
+    setGoalForUpdate(data);
   }
 
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button type="button">Visualizar metas</Button>
+        <Button type="button" variant="secondary">
+          Visualizar metas
+        </Button>
       </SheetTrigger>
 
       <SheetContent className="flex flex-col gap-3 bg-zinc-950 border-zinc-900 pt-10">
@@ -70,11 +74,13 @@ export function Goals({ data }: GoalsProps) {
                     <Button
                       type="button"
                       className="bg-violet-500 hover:bg-violet-600"
+                      onClick={() => handleUpdateGoal(goal)}
                     >
                       <PenBox size={15} />
                     </Button>
 
                     <Button
+                      variant="secondary"
                       type="button"
                       onClick={() => handleDeleteGoal(goal.id)}
                     >
@@ -87,27 +93,17 @@ export function Goals({ data }: GoalsProps) {
           </Table>
         ) : null}
 
-        <Dialog open={isOpenDeleteDialog} onOpenChange={setIsOpenDeleteDialog}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle className="text-zinc-100">
-                Excluir registro
-              </DialogTitle>
-              <DialogDescription>
-                Esta operação não pode ser desfeita!
-              </DialogDescription>
-            </DialogHeader>
+        <DialogDeleteGoal
+          isOpenDeleteDialog={isOpenDeleteDialog}
+          setIsOpenDeleteDialog={setIsOpenDeleteDialog}
+          id={goalIdForDelete}
+        />
 
-            <DialogFooter className="flex gap-2">
-              <Button type="button" variant="destructive">
-                Excluir
-              </Button>
-              <DialogClose>
-                <Button type="button">Cancelar</Button>
-              </DialogClose>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        <DialogUpdateGoal
+          isOpenUpdateDialog={isOpenUpdateDialog}
+          setIsOpenUpdateDialog={setIsOpenUpdateDialog}
+          data={goalForUpdate as Goal}
+        />
       </SheetContent>
     </Sheet>
   );
