@@ -2,15 +2,14 @@ import { useToast } from "@/hooks/use-toast.ts";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import ptBR from "dayjs/locale/pt-br";
-import { CheckCircle2, Plus } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import { getWeekSummary } from "../actions/get-week-summary.ts";
 import { removeGoalCompletion } from "../actions/remove-goal-completion.ts";
 import { InOrbitIcon } from "./icons/in-orbit-icon.tsx";
 import { PendingGoals } from "./peding-goals.tsx";
-import { Button } from "./ui/button.tsx";
-import { DialogTrigger } from "./ui/dialog.tsx";
 import { Progress, ProgressIndicator } from "./ui/progress-bar.tsx";
 import { Separator } from "./ui/separator.tsx";
+import { CreateGoal } from "./create-goal.tsx";
 
 dayjs.locale(ptBR);
 
@@ -67,12 +66,7 @@ export function Summary() {
           </span>
         </div>
 
-        <DialogTrigger asChild>
-          <Button type="button" className="bg-violet-500 hover:bg-violet-600">
-            <Plus className="size-4" />
-            Cadastrar meta
-          </Button>
-        </DialogTrigger>
+        <CreateGoal />
       </div>
 
       <div className="flex flex-col gap-3">

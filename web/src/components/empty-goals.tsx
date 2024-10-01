@@ -1,8 +1,6 @@
-import { Plus } from "lucide-react";
 import lestStart from "../assets/lets-start-illustration.svg";
 import logo from "../assets/logo-in-orbit.svg";
-import { Button } from "./ui/button.tsx";
-import { DialogTrigger } from "./ui/dialog.tsx";
+import { CreateGoal } from "./create-goal.tsx";
 
 export function EmptyGoals() {
   return (
@@ -14,12 +12,7 @@ export function EmptyGoals() {
         Você ainda não cadastrou nenhuma meta, que tal cadastrar um agora mesmo?
       </p>
 
-      <DialogTrigger asChild>
-        <Button type="button" className="bg-violet-500 hover:bg-violet-600">
-          <Plus className="size-4" />
-          Cadastrar meta
-        </Button>
-      </DialogTrigger>
+      <CreateGoal />
     </div>
   );
 }

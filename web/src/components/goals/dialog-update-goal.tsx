@@ -74,7 +74,7 @@ export function DialogUpdateGoal({
 
   return (
     <Dialog open={isOpenUpdateDialog} onOpenChange={setIsOpenUpdateDialog}>
-      <DialogContent>
+      <DialogContent className="w-11/12 md:w-full rounded-md">
         <DialogHeader>
           <DialogTitle className="text-zinc-100">
             Atualizar registro
@@ -109,8 +109,9 @@ export function DialogUpdateGoal({
           </div>
         )}
 
-        <DialogFooter className="flex gap-2">
+        <DialogFooter className="flex gap-2 w-full flex-row justify-end">
           <Button
+            className="flex-1 md:max-w-28"
             type="button"
             onClick={() => handleUpdate()}
             disabled={isPending}
@@ -119,6 +120,7 @@ export function DialogUpdateGoal({
             Atualizar
           </Button>
           <Button
+            className="flex-1 md:max-w-28"
             variant="secondary"
             type="button"
             onClick={() => setIsOpenUpdateDialog(false)}
