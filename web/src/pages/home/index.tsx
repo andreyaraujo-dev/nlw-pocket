@@ -18,7 +18,7 @@ export function Home() {
   useEffect(() => {
     (async () => {
       const response = await getUserProfile();
-      console.log(response);
+      updateUser(response.email, response.name);
     })();
   }, []);
 
