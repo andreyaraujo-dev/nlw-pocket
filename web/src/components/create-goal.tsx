@@ -22,6 +22,7 @@ import { useToast } from "@/hooks/use-toast.ts";
 import { DialogTrigger } from "./ui/dialog.tsx";
 import { Plus } from "lucide-react";
 import { useState } from "react";
+import { userStore } from "@/stores/user.ts";
 
 const createGoalForm = z.object({
   title: z.string().min(1, "Informe a atividade que deseja realizar"),
@@ -38,12 +39,14 @@ export function CreateGoal() {
       resolver: zodResolver(createGoalForm),
     });
   const [isOpen, setIsOpen] = useState(false);
+  const userEmail = userStore((state) => state.email);
 
   async function handleCreateGoal(data: CreateGoalForm) {
     try {
       await createGoal({
         title: data.title,
         desiredWeeklyFrequency: data.desiredWeeklyFrequency,
+        userEmail,
       });
 
       queryClient.invalidateQueries({ queryKey: ["week-summary"] });

@@ -5,20 +5,23 @@ import { getPendingGoals } from "../actions/get-pending-goals.ts";
 import { OutlineButton } from "./ui/outline-button.tsx";
 import { Goals } from "./goals/goals.tsx";
 import { useToast } from "@/hooks/use-toast.ts";
+import { userStore } from "@/stores/user.ts";
 
 export function PendingGoals() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const userEmail = userStore((state) => state.email);
   const { data } = useQuery({
     queryKey: ["pending-goals"],
-    queryFn: getPendingGoals,
+    queryFn: () => getPendingGoals(userEmail),
     staleTime: 1000 * 60, // 60 seconds
+    enabled: !!userEmail,
   });
   if (!data) return null;
 
   async function handleCompletionGoal(goalId: string) {
     try {
-      await createGoalCompletion(goalId);
+      await createGoalCompletion(goalId, userEmail);
 
       queryClient.invalidateQueries({ queryKey: ["week-summary"] });
       queryClient.invalidateQueries({ queryKey: ["pending-goals"] });

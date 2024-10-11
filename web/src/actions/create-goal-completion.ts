@@ -1,9 +1,12 @@
-export async function createGoalCompletion(goalId: string): Promise<void> {
-  await fetch('http://localhost:3000/completion', {
-    method: 'POST',
+export async function createGoalCompletion(
+  goalId: string,
+  userEmail: string
+): Promise<void> {
+  await fetch("http://localhost:3000/completion", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({ goalId }),
-  })
+    body: JSON.stringify({ goalId, userEmail }),
+  });
 }

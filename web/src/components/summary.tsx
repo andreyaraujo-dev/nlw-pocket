@@ -10,16 +10,19 @@ import { PendingGoals } from "./peding-goals.tsx";
 import { Progress, ProgressIndicator } from "./ui/progress-bar.tsx";
 import { Separator } from "./ui/separator.tsx";
 import { CreateGoal } from "./create-goal.tsx";
+import { userStore } from "@/stores/user.ts";
 
 dayjs.locale(ptBR);
 
 export function Summary() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const userEmail = userStore((state) => state.email);
   const { data } = useQuery({
     queryKey: ["week-summary"],
-    queryFn: getWeekSummary,
+    queryFn: () => getWeekSummary(userEmail),
     staleTime: 1000 * 60, // 60 seconds
+    enabled: !!userEmail,
   });
 
   const { mutateAsync, isError } = useMutation({

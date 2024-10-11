@@ -8,11 +8,12 @@ import { userStore } from "@/stores/user.ts";
 
 export function Home() {
   const updateUser = userStore((state) => state.update);
-
+  const userEmail = userStore((state) => state.email);
   const { data } = useQuery({
     queryKey: ["week-summary"],
-    queryFn: getWeekSummary,
+    queryFn: () => getWeekSummary(userEmail),
     staleTime: 1000 * 60, // 60 seconds
+    enabled: !!userEmail,
   });
 
   useEffect(() => {
