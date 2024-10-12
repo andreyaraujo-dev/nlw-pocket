@@ -12,7 +12,7 @@ type GoalsPerDay = Record<
   }[]
 >;
 
-export async function getWeekSummary() {
+export async function getWeekSummary(userEmail: string) {
   const lastDayOfWeek = dayjs().endOf("week").toDate();
   const firstDayOfWeek = dayjs().startOf("week").toDate();
 
@@ -21,11 +21,15 @@ export async function getWeekSummary() {
       .select({
         id: goals.id,
         title: goals.title,
+        userEmail: goals.userEmail,
         desiredWeeklyFrequency: goals.desiredWeeklyFrequency,
         createdAt: goals.createdAt,
       })
       .from(goals)
-      .where(lte(goals.createdAt, lastDayOfWeek))
+      .where(and(
+        lte(goals.createdAt, lastDayOfWeek),
+        eq(goals.userEmail, userEmail)
+      ))
   );
 
   const goalsCompletedInWeek = db.$with("goals_completed_in_week").as(
