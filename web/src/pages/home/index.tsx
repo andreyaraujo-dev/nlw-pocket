@@ -18,16 +18,20 @@ export function Home() {
     enabled: !!user.email,
   });
 
+  const { data: userProfile, isSuccess } = useQuery({
+    queryKey: ["user"],
+    queryFn: getUserProfile,
+  });
+
   useEffect(() => {
-    (async () => {
-      const response = await getUserProfile();
+    if (isSuccess) {
       updateUser({
-        email: response.email,
-        name: response.name,
-        imageUrl: response.imageUrl,
+        email: userProfile.email,
+        name: userProfile.name,
+        imageUrl: userProfile.imageUrl,
       });
-    })();
-  }, []);
+    }
+  }, [isSuccess]);
 
   return (
     <>
