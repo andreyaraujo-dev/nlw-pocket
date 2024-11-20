@@ -1,16 +1,16 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
-import { createGoalCompletion } from "../actions/create-goal-completion.ts";
-import { getPendingGoals } from "../actions/get-pending-goals.ts";
-import { OutlineButton } from "./ui/outline-button.tsx";
-import { Goals } from "./goals/goals.tsx";
+import { createGoalCompletion } from "../../actions/create-goal-completion.ts";
+import { getPendingGoals } from "../../actions/get-pending-goals.ts";
+import { OutlineButton } from "../ui/outline-button.tsx";
+import { Goals } from "./goals.tsx";
 import { useToast } from "@/hooks/use-toast.ts";
 import { userStore } from "@/stores/user.ts";
 
 export function PendingGoals() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const userEmail = userStore((state) => state.email);
+  const userEmail = userStore((state) => state.user.email);
   const { data } = useQuery({
     queryKey: ["pending-goals"],
     queryFn: () => getPendingGoals(userEmail),

@@ -1,18 +1,36 @@
 import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
 
 type User = {
   name: string;
   email: string;
+  imageUrl: string;
+};
+
+type Store = {
+  user: User;
 };
 
 type Action = {
   clear: () => void;
-  update: (email: string, name: string) => void;
+  update: (user: User) => void;
 };
 
-export const userStore = create<User & Action>((set) => ({
-  email: "",
-  name: "",
-  update: (email: string, name: string) => set(() => ({ email, name })),
-  clear: () => set({ name: "", email: "" }),
-}));
+export const userStore = create(
+  persist<Store & Action>(
+    (set) => ({
+      user: {
+        email: "",
+        name: "",
+        imageUrl: "",
+      },
+      update: ({ email, name, imageUrl }) =>
+        set(() => ({ user: { email, name, imageUrl } })),
+      clear: () => set({ user: { name: "", email: "", imageUrl: "" } }),
+    }),
+    {
+      name: "in-orbit",
+      storage: createJSONStorage(() => localStorage),
+    }
+  )
+);

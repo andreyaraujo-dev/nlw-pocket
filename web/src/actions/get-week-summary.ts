@@ -7,7 +7,7 @@ type GoalsPerDay = Record<
   }[]
 >;
 
-type SummaryResponse = {
+export type SummaryResponse = {
   completed: number;
   total: number;
   goalsPerDay: GoalsPerDay;

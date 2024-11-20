@@ -2,24 +2,24 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
-import { createGoal } from "../actions/create-goal.ts";
-import { Button } from "./ui/button.tsx";
-import { Input } from "./ui/input.tsx";
-import { Label } from "./ui/label.tsx";
+import { createGoal } from "../../actions/create-goal.ts";
+import { Button } from "../ui/button.tsx";
+import { Input } from "../ui/input.tsx";
+import { Label } from "../ui/label.tsx";
 import {
   RadioGroup,
   RadioGroupIndicator,
   RadioGroupItem,
-} from "./ui/radio-group.tsx";
+} from "../ui/radio-group.tsx";
 import {
   Sheet,
   SheetClose,
   SheetContent,
   SheetDescription,
   SheetTitle,
-} from "./ui/sheet.tsx";
+} from "../ui/sheet.tsx";
 import { useToast } from "@/hooks/use-toast.ts";
-import { DialogTrigger } from "./ui/dialog.tsx";
+import { DialogTrigger } from "../ui/dialog.tsx";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { userStore } from "@/stores/user.ts";
@@ -39,7 +39,7 @@ export function CreateGoal() {
       resolver: zodResolver(createGoalForm),
     });
   const [isOpen, setIsOpen] = useState(false);
-  const userEmail = userStore((state) => state.email);
+  const userEmail = userStore((state) => state.user.email);
 
   async function handleCreateGoal(data: CreateGoalForm) {
     try {

@@ -1,5 +1,5 @@
-import lestStart from "../assets/lets-start-illustration.svg";
-import logo from "../assets/logo-in-orbit.svg";
+import lestStart from "../../assets/lets-start-illustration.svg";
+import logo from "../../assets/logo-in-orbit.svg";
 import { CreateGoal } from "./create-goal.tsx";
 
 export function EmptyGoals() {

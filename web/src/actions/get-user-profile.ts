@@ -3,6 +3,7 @@ import { parseCookies } from "nookies";
 export async function getUserProfile(): Promise<{
   name: string;
   email: string;
+  imageUrl: string;
 }> {
   const cookies = parseCookies();
 
@@ -24,5 +25,6 @@ export async function getUserProfile(): Promise<{
   return {
     name: data.name,
     email: data.email,
+    imageUrl: data.picture,
   };
 }
