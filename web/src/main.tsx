@@ -9,6 +9,7 @@ import {
   GoogleOAuthCustomProvider,
   QueryClientCustomProvider,
 } from "./providers";
+import { PrivateRoute } from "./routes/private-route.tsx";
 
 const router = createBrowserRouter([
   {
@@ -17,7 +18,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/home",
-    element: <Home />,
+    element: <PrivateRoute component={<Home />} />,
   },
 ]);
 

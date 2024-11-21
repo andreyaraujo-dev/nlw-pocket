@@ -3,17 +3,20 @@ import { destroyCookie } from "nookies";
 import { Button } from "@/components/ui/button.tsx";
 import { useNavigate } from "react-router-dom";
 import { userStore } from "@/stores/user";
+import { useQueryClient } from "@tanstack/react-query";
 
 export function Header() {
   const navigate = useNavigate();
   const clearUserData = userStore((state) => state.clear);
   const user = userStore((state) => state.user);
+  const queryClient = useQueryClient();
 
   function handleLogout() {
     googleLogout();
     clearUserData();
-    navigate("/");
     destroyCookie(null, "access_token");
+    queryClient.invalidateQueries({ queryKey: ["user"] });
+    navigate("/");
   }
 
   return (
